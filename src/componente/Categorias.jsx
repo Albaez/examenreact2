@@ -28,8 +28,7 @@ const Categorías = () => {
       },
       body: JSON.stringify({
         name: newCategory,
-        image:
-          "https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.123rf.com%2Fphoto_61198423_categor%25C3%25ADa-palabra-en-bloques-de-madera.html&psig=AOvVaw1BDPl2Og6jFoqbSZTiPSV6&ust=1711295670319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIjrlabfioUDFQAAAAAdAAAAABAI",
+        image: "https://placeimg.com/640/480/any",
       }),
     })
       .then((response) => response.json())
@@ -47,15 +46,18 @@ const Categorías = () => {
       return;
     }
 
-    fetch(`https://api.escuelajs.co/api/v1/categories/${editCategoryId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: editCategory,
-      }),
-    })
+    fetch(
+      `https://api.escuelajs.co/api/v1/categories/${editCategoryId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: editCategory,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         const updatedCategories = categories.map((category) => {
@@ -92,20 +94,37 @@ const Categorías = () => {
       <h1 className="text-center">CRUD de Categorías</h1>
 
       <section>
-  <h2>Listado de categorías</h2>
-  <ul className="list-group mb-3">
-    {categories.map((category) => (
-      <li key={category.id} className="list-group-item d-flex justify-content-between align-items-center">
-        {category.name}
-        <button className="btn btn-outline-danger" onClick={() => handleDeleteCategory(category.id)}>Eliminar</button>
-        <button className="btn btn-outline-info" onClick={() => handleEditCategory(category.id)}>Editar</button>
-        <img src={category.image} alt={category.name} className="img-fluid" />
-      </li>
-    ))}
-  </ul>
-</section>
+        <h2 className="text-left">Listado de categorías</h2>
+        <ul className="list-group d-flex">
+          {categories.map((category) => (
+            <li
+              key={category.id}
+              className="list-group-item d-flex justify-content-start align-items-center"
+            >
+              {category.name}
+              <button
+                className="btn btn-outline-danger mr-2"
+                onClick={() => handleDeleteCategory(category.id)}
+              >
+                Eliminar
+              </button>
+              <button
+                className="btn btn-outline-info mr-2"
+                onClick={() => handleEditCategory(category.id)}
+              >
+                Editar
+              </button>
+              <img
+                src={category.image}
+                alt={category.name}
+                className="img-fluid"
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <section className="d-flex justify-content-end mt-3">
+      <section id="agregar" className="d-flex justify-content-end mt-3">
         <h2>Agregar categoría</h2>
         <input
           type="text"
@@ -125,7 +144,20 @@ const Categorías = () => {
             value={editCategory}
             onChange={(e) => setEditCategory(e.target.value)}
           />
-          <button className="btn btn-outline-info" onClick={handleEditCategory}>
+          <button
+            className="btn btn-outline-info"
+            onClick={() => {
+              if (editCategory.trim() === "") {
+                swal(
+                  "Error",
+                  "Debes ingresar el nombre de la categoría",
+                  "error"
+                );
+                return;
+              }
+              handleEditCategory();
+            }}
+          >
             Guardar
           </button>
         </section>
