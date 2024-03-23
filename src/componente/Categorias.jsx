@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
+import defaultAvatar from './default-avatar.png';
 
 const Categorías = () => {
   const [categories, setCategories] = useState([]);
@@ -28,7 +29,7 @@ const Categorías = () => {
       },
       body: JSON.stringify({
         name: newCategory,
-        image: "https://placeimg.com/640/480/any",
+        image: "/src/componente/default-avatar.png",
       }),
     })
       .then((response) => response.json())
@@ -91,37 +92,38 @@ const Categorías = () => {
 
   return (
     <div className="container">
-      <h1 className="text-center">CRUD de Categorías</h1>
+      <h1 className="text-center">API Categorías</h1>
 
       <section>
         <h2 className="text-left">Listado de categorías</h2>
-        <ul className="list-group d-flex">
+        <div className="row">
           {categories.map((category) => (
-            <li
-              key={category.id}
-              className="list-group-item d-flex justify-content-start align-items-center"
-            >
-              {category.name}
-              <button
-                className="btn btn-outline-danger mr-2"
-                onClick={() => handleDeleteCategory(category.id)}
-              >
-                Eliminar
-              </button>
-              <button
-                className="btn btn-outline-info mr-2"
-                onClick={() => handleEditCategory(category.id)}
-              >
-                Editar
-              </button>
-              <img
-                src={category.image}
-                alt={category.name}
-                className="img-fluid"
-              />
-            </li>
+            <div key={category.id} className="col-md-4 mb-4">
+              <div className="card">
+                <img
+                  src={defaultAvatar}
+                  alt={category.name}
+                  className="card-img-top"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{category.name}</h5>
+                  <button
+                    className="btn btn-outline-danger mr-2"
+                    onClick={() => handleDeleteCategory(category.id)}
+                  >
+                    Eliminar
+                  </button>
+                  <button
+                    className="btn btn-outline-info"
+                    onClick={() => handleEditCategory(category.id)}
+                  >
+                    Editar
+                  </button>
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section id="agregar" className="d-flex justify-content-end mt-3">
