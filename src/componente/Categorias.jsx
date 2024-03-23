@@ -127,7 +127,7 @@ const Categorías = () => {
       </section>
 
       <section id="agregar" className="d-flex justify-content-end mt-3">
-        <h2>Agregar categoría</h2>
+        <h2>Anexar categoría </h2>
         <input
           type="text"
           value={newCategory}
